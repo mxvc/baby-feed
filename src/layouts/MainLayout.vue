@@ -55,11 +55,11 @@ const linksList = [
     icon: 'school',
     link: '/index'
   },
-  {
-    title: '统计',
-    icon: 'chat',
-    link: '/chart'
-  },
+  // {
+  //   title: '统计',
+  //   icon: 'chat',
+  //   link: '/chart'
+  // },
   {
     title: '自定义',
     icon: 'settings',

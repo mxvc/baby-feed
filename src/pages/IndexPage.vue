@@ -3,7 +3,7 @@
     <div>
       <q-list v-for="(dayList,key) in dayDict" :title="key">
         <q-item-label header>{{ key }}</q-item-label>
-        <q-item v-for="(item,index) in dayList">
+        <q-item v-for="(item,index) in dayList" >
           <q-item-section avatar>
             <q-avatar>
               <img :src="getImageSrc(item.type)">
@@ -14,8 +14,10 @@
             <q-item-label>{{ itemNameRender(item) }}</q-item-label>
             <q-item-label caption>{{ fullDateRender(item) }}</q-item-label>
           </q-item-section>
-          <q-item-section side :to="'/edit'">
-            <q-item-label>{{ simpleDateRender(item) }}</q-item-label>
+          <q-item-section side @click="gotoForm(item,index)">
+            <q-item-label>{{ simpleDateRender(item) }}
+              <q-icon name="chevron_right" />
+            </q-item-label>
           </q-item-section>
         </q-item>
 
@@ -115,9 +117,8 @@ export default defineComponent({
     },
 
     gotoForm(item, index) {
-      uni.navigateTo({
-        url: '/pages/form/form?time=' + item.time + '&index=' + index,
-      })
+      const url = 'edit?time=' + item.time + '&index=' + index
+      this.$router.push(url)
     }
 
   }

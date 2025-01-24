@@ -9,8 +9,14 @@
 
 <script>
 import { defineComponent } from 'vue';
+import {EVENT_LIST} from "src/utils/data.js";
 
 export default defineComponent({
-  name: 'CustomPage'
+  name: 'CustomPage',
+  data(){
+    return {
+      eventList: EVENT_LIST
+    }
+  }
 });
 </script>

@@ -46,6 +46,15 @@ export const EVENT_LIST = [
   },
 ]
 
+export function getEventOptions(){
+  return EVENT_LIST.map(item=>{
+    return {
+      label:item.name,
+      value:item.key
+    }
+  })
+}
+
 export const EVENT_MAP = {}
 for (let item of EVENT_LIST) {
   EVENT_MAP[item.key] = item
