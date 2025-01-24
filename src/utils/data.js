@@ -3,6 +3,7 @@ import type_1 from '../assets/type_1.png'
 import type_2 from '../assets/type_2.png'
 import type_3 from '../assets/type_3.png'
 import type_banai from '../assets/type_banai.png'
+import {LocalStorage} from "quasar";
 
 const KEY_LIST = 'list'
 
@@ -32,6 +33,17 @@ export const EVENT_LIST = [
     name: '拔奶',
     icon: type_banai
   },
+
+  {
+    key: 6,
+    name: '母乳 左',
+    icon: type_banai
+  },
+  {
+    key: 7,
+    name: '母乳 右',
+    icon: type_banai
+  },
 ]
 
 export const EVENT_MAP = {}
@@ -41,28 +53,13 @@ for (let item of EVENT_LIST) {
 
 
 export function saveAll(list) {
-  uni.setStorage({
-    key: KEY_LIST,
-    data: list,
-    success: function () {
-      showSuccess('操作成功')
-    },
-    fail: function () {
-      showError('操作失败')
-    }
-  });
-
+  LocalStorage.set(KEY_LIST, list)
 }
 
 export function findAll() {
   return new Promise(resolve => {
-    uni.getStorage({
-      key: KEY_LIST,
-      success: (e) => {
-        const list = e.data
-        resolve(list)
-      }
-    })
+    const list = LocalStorage.getItem(KEY_LIST)
+    resolve(list)
   })
 
 }

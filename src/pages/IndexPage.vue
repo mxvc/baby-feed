@@ -1,52 +1,32 @@
 <template>
-  <q-page>
-
-    <div style="height: calc(100vh - 280px)">
-      <q-list>
-
-        <q-item-label header>1月2日</q-item-label>
-
-        <q-item :to="'/edit'">
-          <q-item-section
-            avatar
-          >
+  <q-page class="">
+    <div>
+      <q-list v-for="(dayList,key) in dayDict" :title="key">
+        <q-item-label header>{{ key }}</q-item-label>
+        <q-item v-for="(item,index) in dayList">
+          <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+              <img :src="getImageSrc(item.type)">
             </q-avatar>
           </q-item-section>
 
           <q-item-section>
-            <q-item-label>母乳</q-item-label>
-            <q-item-label caption>2024</q-item-label>
+            <q-item-label>{{ itemNameRender(item) }}</q-item-label>
+            <q-item-label caption>{{ fullDateRender(item) }}</q-item-label>
           </q-item-section>
-          <q-item-section side>
-            <q-item-label>5 min ago</q-item-label>
+          <q-item-section side :to="'/edit'">
+            <q-item-label>{{ simpleDateRender(item) }}</q-item-label>
           </q-item-section>
         </q-item>
 
-        <q-item>
-          <q-item-section
-            avatar
-          >
-            <q-avatar>
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-            </q-avatar>
-          </q-item-section>
-
-          <q-item-section>
-            <q-item-label>母乳</q-item-label>
-            <q-item-label caption>2024</q-item-label>
-          </q-item-section>
-
-        </q-item>
       </q-list>
     </div>
-    <div>
-      <div style="display: flex;gap:8px;justify-content: center">
-        <q-btn v-for="item in eventList" color="primary" :label="item.name"
+    <div class="q-pa-md" style="position: fixed;bottom: 0;">
+      <div style="display: flex;gap:8px; justify-content:flex-start; flex-wrap:wrap;">
+        <q-btn v-for="item in eventList" color="primary" :label="item.name" style="width: 23%"
                @click="add(item.key)"></q-btn>
-      </div>
 
+      </div>
     </div>
 
   </q-page>
@@ -54,7 +34,7 @@
 
 <script>
 import {defineComponent} from 'vue';
-import {EVENT_LIST, EVENT_MAP, saveAll} from "src/utils/data.js";
+import {EVENT_LIST, EVENT_MAP, findAll, saveAll} from "src/utils/data.js";
 import {formatFullDay, formatTime, pastTime} from "src/utils/dateUtil.js";
 
 export default defineComponent({
@@ -80,7 +60,19 @@ export default defineComponent({
       return dict;
     }
   },
+  mounted() {
+    this.loadData()
+  },
+  onShow() {
+    // this.loadData()
+  },
   methods: {
+    loadData() {
+      findAll().then(list => {
+        this.list = list
+      })
+
+    },
     add(type) {
       const time = new Date().getTime();
       if (this.list.length > 600) {
